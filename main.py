@@ -3,11 +3,15 @@ import time
 import os
 from telegram import Bot
 
-TOKEN = os.getenv("TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
+TOKEN = os.getenv("8303788629:AAEgokHsoca098m2lBZQKF_jQzsHXp7PRKg")
+CHAT_ID = os.getenv("-1002664199588")
 CHECK_INTERVAL = 30
 
 bot = Bot(token=TOKEN)
+
+# MANUEL TEST MESAJI
+bot.send_message(chat_id=CHAT_ID, text="Bot başarıyla çalışıyor! 🎉")
+
 sent_events = set()
 sent_status = set()
 
@@ -57,4 +61,18 @@ def check_matches():
                     text = f"⚽ {minute}' | {player} gol attı! ({home} {score_home} - {score_away} {away})"
                 elif type_ == "card":
                     emoji = "🟥" if detail == "red" else "🟨"
-                    text = f"{emoji
+                    text = f"{emoji} {minute}' | {player} kart gördü!"
+                elif type_ == "substitution":
+                    text = f"🔄 {minute}' | Oyuncu değişikliği: {player}"
+                else:
+                    continue
+
+                bot.send_message(chat_id=CHAT_ID, text=text)
+                sent_events.add(event_id)
+
+    except Exception as e:
+        print("Hata:", e)
+
+while True:
+    check_matches()
+    time.sleep(CHECK_INTERVAL)
